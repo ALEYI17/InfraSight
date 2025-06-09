@@ -1,0 +1,12 @@
+[submodule "ebpf_deploy"]
+	path = ebpf_deploy
+	url = https://github.com/ALEYI17/ebpf_deploy.git
+[submodule "ebpf_server"]
+	path = ebpf_server
+	url = https://github.com/ALEYI17/ebpf_server.git
+[submodule "ebpf_loader"]
+	path = ebpf_loader
+	url = https://github.com/ALEYI17/ebpf_loader.git
+[submodule "infrasight-controller"]
+	path = infrasight-controller
+	url = https://github.com/ALEYI17/infrasight-controller.git
