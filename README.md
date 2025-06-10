@@ -50,7 +50,7 @@ InfraSight is extensible, and support for additional syscalls (such as `unlink`,
 
 The diagram below illustrates the high-level architecture of the **InfraSight** platform:
 
-![InfraSight Architecture](https://github.com/ALEYI17/InfraSight/blob/main/infrasight.drawio.png)
+![InfraSight Architecture](https://github.com/ALEYI17/InfraSight/blob/main/infrasight.png)
 
 InfraSight follows a modular pipeline:
 
@@ -59,4 +59,65 @@ InfraSight follows a modular pipeline:
 * The server performs further enrichment (timestamps, formatting, latency conversion) and writes the data into **ClickHouse**, a columnar database optimized for analytical queries.
 * Finally, users can analyze and visualize the collected data using tools like **Grafana**, **pytorch**, or direct SQL queries.
 
-This architecture enables deep observability on both standalone Linux hosts and Kubernetes clusters, offering flexibility and high performance.
+This architecture enables deep observability on both standalone Linux hosts and Kubernetes clusters.
+
+### 4. **🧩 Project Components**
+
+| Component                                                                   | Description                                                                               |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [`ebpf_loader`](https://github.com/ALEYI17/ebpf_loader)                     | Lightweight agent that runs eBPF programs on each node and sends telemetry to the server  |
+| [`ebpf_server`](https://github.com/ALEYI17/ebpf_server)                     | Receives, enriches, and stores events in ClickHouse                                       |
+| [`infrasight-controller`](https://github.com/ALEYI17/infrasight-controller) | Kubernetes-native controller for deploying and managing eBPF agents                       |
+| [`ebpf_deploy`](https://github.com/ALEYI17/ebpf_deploy)                     | Helm-based deployment for ClickHouse and the server in Kubernetes                         |
+| [`ClickHouse`](https://clickhouse.com/)                                       | High-performance columnar database used for storing and querying enriched eBPF event data |
+
+
+### 5. **🚀 Getting Started**
+
+InfraSight is composed of multiple modular components that can be deployed individually or together, depending on your needs. It supports both **Kubernetes** and **non-Kubernetes (bare-metal or VM)** environments.
+
+To get started, **follow the README files in each of the individual repositories**. Each one contains specific setup and usage instructions tailored to its component:
+
+| Component                | Repository                                                                  |
+| ------------------------ | --------------------------------------------------------------------------- |
+| eBPF Agent (Loader)      | [`ebpf_loader`](https://github.com/ALEYI17/ebpf_loader)                     |
+| Event Server & Ingestion | [`ebpf_server`](https://github.com/ALEYI17/ebpf_server)                     |
+| Kubernetes Controller    | [`infrasight-controller`](https://github.com/ALEYI17/infrasight-controller) |
+| Helm-based Deployment    | [`ebpf_deploy`](https://github.com/ALEYI17/ebpf_deploy)                     |
+
+### 6. **✨ Features**
+
+* **Kernel-Level Tracing with eBPF**
+  Trace key system calls like `execve`, `open`, `chmod`, `connect`, and `accept` directly from the Linux kernel.
+
+* **Real-Time Event Streaming**
+  Events are streamed over gRPC for minimal latency and efficient transport.
+
+* **Structured Storage with ClickHouse**
+  Events are stored in a high-performance, columnar database for fast querying and analysis.
+
+* **Works in Bare Metal or Kubernetes**
+  InfraSight can run on regular Linux systems or be deployed in Kubernetes using Helm and a custom controller.
+
+* **Kubernetes Controller with CRD Support**
+  Deploy and manage tracing agents with fine-grained configuration using a custom resource.
+
+### 8. **🔮 Future Work**
+
+InfraSight is designed to be extensible. The following enhancements are under consideration to make the platform even more powerful and user-friendly:
+
+* ** Threat Detection Capabilities**
+  Add rule-based detection for common attack patterns such as privilege escalation, reverse shells, or unauthorized access attempts.
+
+* ** Anomaly Detection & Behavior Profiling**
+  Use statistical or machine learning techniques to identify unusual system behavior and flag potential security incidents.
+
+* ** Web Interface or CLI**
+  Develop a user-friendly web interface or command-line tool to explore and interact with traced events and system data.
+
+* ** Standard Dashboard (Grafana or Similar)**
+  Provide ready-made dashboards for visualizing collected telemetry using tools like Grafana or Metabase.
+
+> Have an idea or suggestion to improve InfraSight?
+Feel free to open an issue or reach out — contributions and feedback are always welcome!
+
