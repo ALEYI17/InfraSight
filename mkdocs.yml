@@ -1,0 +1,23 @@
+site_name: InfraSight
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Architecture: architecture.md
+  - eBPF Programs: ebpf-programs.md
+  - Database Schema: database-schema.md
+  - Demo: demo.md
+theme:
+  name: material
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/lightbulb 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+repo_url: https://github.com/ALEYI17/InfraSight
+repo_name: InfraSight
