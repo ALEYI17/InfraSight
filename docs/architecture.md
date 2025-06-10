@@ -50,3 +50,10 @@ The final step of the pipeline involves visualizing and analyzing the collected 
 * **Security audit logs**: Understanding access to sensitive files or network connections.
 * **Performance monitoring**: Tracking resource usage by processes, network, and file system.
 * **Anomaly detection**: Identifying unusual patterns of behavior based on syscall events.
+
+### **6. Flexibility in Deployment**
+
+This architecture is designed to work both in standalone Linux environments and in Kubernetes clusters. The modularity allows easy deployment:
+
+* **On Kubernetes**: The controller (`infrasight-controller`) can be used to deploy eBPF agents (as DaemonSets), manage their configuration, and collect telemetry from all nodes in the cluster.
+* **On standalone Linux hosts**: The eBPF agents can run on any Linux-based system, providing valuable insights in non-Kubernetes environments.
