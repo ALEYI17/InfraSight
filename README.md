@@ -50,7 +50,7 @@ InfraSight is extensible, and support for additional syscalls (such as `unlink`,
 
 The diagram below illustrates the high-level architecture of the **InfraSight** platform:
 
-![InfraSight Architecture](https://github.com/ALEYI17/InfraSight/blob/main/infrasight.png)
+![InfraSight Architecture](https://github.com/ALEYI17/InfraSight/blob/main/docs/images/infrasight.png)
 
 InfraSight follows a modular pipeline:
 
