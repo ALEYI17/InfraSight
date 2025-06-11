@@ -8,13 +8,12 @@ nav:
   - Demo: demo.md
 theme:
   name: material
+  language: en
   palette:
     - scheme: default
       toggle:
         icon: material/lightbulb 
         name: Switch to dark mode
-
-    # Palette toggle for dark mode
     - scheme: slate
       toggle:
         icon: material/lightbulb-outline
