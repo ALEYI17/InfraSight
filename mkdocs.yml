@@ -5,6 +5,7 @@ nav:
   - Architecture: architecture.md
   - eBPF Programs: ebpf-programs.md
   - Database Schema: database-schema.md
+  - Kubernetes CRD: CRD.md
   - Demo: demo.md
 theme:
   name: material
