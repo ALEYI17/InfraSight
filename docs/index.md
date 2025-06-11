@@ -20,4 +20,5 @@ It helps platform engineers, SREs, and security teams gain deep visibility into 
 - [eBPF Programs](ebpf-programs.md)
 - [ClickHouse Schema](database-schema.md)
 - [Architecture Overview](architecture.md)
+- [Kubernetes CRD](crd.md)
 - [Live Demo](demo.md)
