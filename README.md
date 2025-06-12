@@ -106,16 +106,16 @@ To get started, **follow the README files in each of the individual repositories
 
 InfraSight is designed to be extensible. The following enhancements are under consideration to make the platform even more powerful and user-friendly:
 
-* ** Threat Detection Capabilities**
+* **Threat Detection Capabilities**
   Add rule-based detection for common attack patterns such as privilege escalation, reverse shells, or unauthorized access attempts.
 
-* ** Anomaly Detection & Behavior Profiling**
+* **Anomaly Detection & Behavior Profiling**
   Use statistical or machine learning techniques to identify unusual system behavior and flag potential security incidents.
 
-* ** Web Interface or CLI**
+* **Web Interface or CLI**
   Develop a user-friendly web interface or command-line tool to explore and interact with traced events and system data.
 
-* ** Standard Dashboard (Grafana or Similar)**
+* **Standard Dashboard (Grafana or Similar)**
   Provide ready-made dashboards for visualizing collected telemetry using tools like Grafana or Metabase.
 
 > Have an idea or suggestion to improve InfraSight?
