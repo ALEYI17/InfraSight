@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS audit.network_events (
   dport String,
   saddr_ipv6 String,
   daddr_ipv6 String,
-
+  resolved_domain Nullable(String),
   monotonic_ts_enter_ns UInt64,
   monotonic_ts_exit_ns UInt64,
   return_code Int64,
@@ -127,5 +127,6 @@ Includes all common fields described above, plus:
 | `dport`         | Destination port                                                            |
 | `saddr_ipv6`    | Source IPv6 address (if applicable)                                         |
 | `daddr_ipv6`    | Destination IPv6 address (if applicable)                                    |
+| `resolved_domain` | Reverse-resolved domain of the destination IP (if public and resolvable); `NULL` if not resolvable or internal/private IP |
 
 
