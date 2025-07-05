@@ -28,6 +28,7 @@ spec:
     - accept
   serverPort: "8080"
   serverAddress: ebpfplatform-ebpf-server
+  prometheusPort: "9090" 
 ```
 
 ### 🧾 Field Reference
@@ -42,5 +43,6 @@ spec:
 | `enableProbes`  | `[]string`             | List of enabled eBPF probes (e.g., `execve`, `connect`, `accept`, etc.).                          |
 | `serverAddress` | `string`               | The address of the InfraSight server to send data to (typically a Kubernetes service name or IP). |
 | `serverPort`    | `string`               | The gRPC port on which the InfraSight server is listening.                                        |
+| `prometheusPort` | `string`               | The HTTP port on which the agent exposes Prometheus metrics (e.g., `9090`).                       |
 
 
