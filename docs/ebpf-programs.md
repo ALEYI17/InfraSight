@@ -11,6 +11,8 @@ InfraSight uses a suite of eBPF programs to trace specific kernel-level events. 
 | **chmod**   | `sys_enter_fchmodat`, `sys_exit_fchmodat`             | Tracepoint         | Monitors changes to file permissions                                              |
 | **accept**  | `inet_csk_accept` (entry and return)                  | kprobe / kretprobe | Captures accepted network connections (i.e., incoming TCP connections)            |
 | **connect** | `tcp_v4_connect`, `tcp_v6_connect` (entry and return) | kprobe / kretprobe | Monitors outbound TCP connection attempts for both IPv4 and IPv6                  |
+| **ptrace**  | `sys_enter_ptrace`, `sys_exit_ptrace`                 | Tracepoint         | Observes process tracing actions like `attach`, `peek`, `poke`, and `continue`; useful for detecting debuggers, tampering, or reverse engineering |
+
 
 ### 🧩 Attach Types Explained
 
@@ -26,5 +28,7 @@ Each eBPF program is written in C and located under the [`bpf/`](https://github.
 * **[chmod\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/chmod_tracer)** – Observes permission changes
 * **[accept\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/accept_tracer)** – Hooks accepted TCP connections
 * **[connect\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/connect_tracer)** – Tracks outbound TCP connection attempts
+* **[ptrace\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/ptrace_tracer)** – Detects process tracing and debugging behavior such as `ptrace` attach, memory read/write, and syscall control
+
 
 These programs are compiled using **[`bpf2go`](https://pkg.go.dev/github.com/cilium/ebpf/cmd/bpf2go)**, a tool from the Cilium/ebpf project, which generates Go bindings for eBPF C code. The resulting artifacts are then loaded dynamically by the `ebpf_loader` agent at runtime.

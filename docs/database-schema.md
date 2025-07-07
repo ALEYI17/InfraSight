@@ -129,4 +129,59 @@ Includes all common fields described above, plus:
 | `daddr_ipv6`    | Destination IPv6 address (if applicable)                                    |
 | `resolved_domain` | Reverse-resolved domain of the destination IP (if public and resolvable); `NULL` if not resolvable or internal/private IP |
 
+## 🧩 `ptrace_events` Table
 
+<details>
+<summary>Click to show table schema</summary>
+
+```sql
+CREATE TABLE IF NOT EXISTS audit.ptrace_events (
+  pid UInt32,
+  uid UInt32,
+  gid UInt32,
+  ppid UInt32,
+  user_pid UInt32,
+  user_ppid UInt32,
+  cgroup_id UInt64,
+  cgroup_name String,
+  comm String,
+
+  request Int64,
+  target_pid Int64,
+  addr UInt64,
+  data UInt64,
+  request_name String,
+  monotonic_ts_enter_ns UInt64,
+  monotonic_ts_exit_ns UInt64,
+  return_code Int64,
+  latency_ns UInt64,
+
+  event_type String,
+  node_name String,
+  user String,
+
+  latency_ms Float64,
+  wall_time_ms Int64,
+  wall_time_dt DateTime64(3),
+
+  container_id String,
+  container_image String,
+  container_labels_json JSON
+)
+ENGINE = MergeTree()
+ORDER BY wall_time_ms;
+```
+
+</details>
+
+### 🔍 Field Descriptions
+
+Includes all common fields described above, plus:
+
+| Field          | Description                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| `request`      | Raw numeric value passed to `ptrace` (e.g., `0`, `16`, `24`)                               |
+| `target_pid`   | The PID of the target process being traced                                                 |
+| `addr`         | Memory address or register offset used in the `ptrace` call (depends on the `request`)     |
+| `data`         | Auxiliary data or pointer used by the syscall (e.g., value to write, pointer to structure) |
+| `request_name` | Human-readable name for the `request` (e.g., `PTRACE_ATTACH`, `PTRACE_SYSCALL`)            |
