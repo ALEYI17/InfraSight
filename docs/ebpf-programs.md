@@ -13,6 +13,8 @@ InfraSight uses a suite of eBPF programs to trace specific kernel-level events. 
 | **connect** | `tcp_v4_connect`, `tcp_v6_connect` (entry and return) | kprobe / kretprobe | Monitors outbound TCP connection attempts for both IPv4 and IPv6                  |
 | **ptrace**  | `sys_enter_ptrace`, `sys_exit_ptrace`                 | Tracepoint         | Observes process tracing actions like `attach`, `peek`, `poke`, and `continue`; useful for detecting debuggers, tampering, or reverse engineering |
 | **mmap**    | `sys_enter_mmap`, `sys_exit_mmap`                     | Tracepoint         | Tracks memory mapping requests, including suspicious RWX regions used in shellcode or injection attacks                                           |
+| **mount**   | `sys_enter_mount`, `sys_exit_mount`                   | Tracepoint         | Monitors mount system calls useful for detecting container mount propagation, overlay mounts, or filesystem tampering |
+
 
 
 
@@ -31,7 +33,9 @@ Each eBPF program is written in C and located under the [`bpf/`](https://github.
 * **[accept\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/accept_tracer)** – Hooks accepted TCP connections
 * **[connect\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/connect_tracer)** – Tracks outbound TCP connection attempts
 * **[ptrace\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/ptrace_tracer)** – Detects process tracing and debugging behavior such as `ptrace` attach, memory read/write, and syscall control
-* **[mmap\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mmap_tracer)** – Observes memory allocation via `mmap`; useful for detecting RWX mappings, shellcode injection, or memory-based exploits
+* **[mmap\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mmap_tracer)** – Observes memory allocation via `mmap` useful for detecting RWX mappings, shellcode injection, or memory-based exploits
+* **[mount\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mount_tracer)** – Monitors filesystem mount operations useful for observing overlay mounts or suspicious remounts
+
 
 
 

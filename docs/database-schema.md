@@ -185,3 +185,119 @@ Includes all common fields described above, plus:
 | `addr`         | Memory address or register offset used in the `ptrace` call (depends on the `request`)     |
 | `data`         | Auxiliary data or pointer used by the syscall (e.g., value to write, pointer to structure) |
 | `request_name` | Human-readable name for the `request` (e.g., `PTRACE_ATTACH`, `PTRACE_SYSCALL`)            |
+
+## 🧠 `mmap_events` Table
+
+<details>
+<summary>Click to show table schema</summary>
+
+```sql
+CREATE TABLE IF NOT EXISTS audit.mmap_events (
+  pid UInt32,
+  uid UInt32,
+  gid UInt32,
+  ppid UInt32,
+  user_pid UInt32,
+  user_ppid UInt32,
+  cgroup_id UInt64,
+  cgroup_name String,
+  comm String,
+  
+  addr UInt64,
+  len UInt64,
+  prot UInt64,
+  flags UInt64,
+  fd UInt64,
+  off UInt64,
+
+  monotonic_ts_enter_ns UInt64,
+  monotonic_ts_exit_ns UInt64,
+  return_code Int64,
+  latency_ns UInt64,
+
+  event_type String,
+  node_name String,
+  user String,
+
+  latency_ms Float64, 
+  wall_time_ms Int64,
+  wall_time_dt DateTime64(3),
+
+  container_id String,
+  container_image String,
+  container_labels_json JSON
+)
+ENGINE = MergeTree()
+ORDER BY wall_time_ms;
+```
+
+</details>
+
+### 🔍 Field Descriptions
+
+Includes all common fields described above, plus:
+
+| Field   | Description                                                        |
+| ------- | ------------------------------------------------------------------ |
+| `addr`  | Starting address of the mapped memory region                       |
+| `len`   | Length of the memory mapping in bytes                              |
+| `prot`  | Protection flags (e.g., `PROT_READ`, `PROT_WRITE`, `PROT_EXEC`)    |
+| `flags` | Mapping flags (e.g., `MAP_PRIVATE`, `MAP_ANONYMOUS`, `MAP_SHARED`) |
+| `fd`    | File descriptor, or `-1` if the mapping is anonymous               |
+| `off`   | Offset into the file from which mapping starts                     |
+
+## 🗂️ `mount_events` Table
+
+<details>
+<summary>Click to show table schema</summary>
+
+```sql
+CREATE TABLE IF NOT EXISTS audit.mount_events (
+  pid UInt32,
+  uid UInt32,
+  gid UInt32,
+  ppid UInt32,
+  user_pid UInt32,
+  user_ppid UInt32,
+  cgroup_id UInt64,
+  cgroup_name String,
+  comm String,
+  
+  dev_name String,
+  dir_name String,
+  type String,
+  flags UInt64,
+
+  monotonic_ts_enter_ns UInt64,
+  monotonic_ts_exit_ns UInt64,
+  return_code Int64,
+  latency_ns UInt64,
+
+  event_type String,
+  node_name String,
+  user String,
+
+  latency_ms Float64, 
+  wall_time_ms Int64,
+  wall_time_dt DateTime64(3),
+
+  container_id String,
+  container_image String,
+  container_labels_json JSON
+)
+ENGINE = MergeTree()
+ORDER BY wall_time_ms;
+```
+
+</details>
+
+### 🔍 Field Descriptions
+
+Includes all common fields described above, plus:
+
+| Field      | Description                                                            |
+| ---------- | ---------------------------------------------------------------------- |
+| `dev_name` | Source device or pseudo-device (e.g., `proc`, `overlay`, `tmpfs`)      |
+| `dir_name` | Target directory where the filesystem is to be mounted                 |
+| `type`     | Filesystem type (e.g., `ext4`, `overlay`, `nfs`)                       |
+| `flags`    | Mount flags (e.g., `MS_RDONLY`, `MS_NOSUID`, `MS_BIND`) as raw bitmask |
