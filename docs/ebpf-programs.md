@@ -14,7 +14,7 @@ InfraSight uses a suite of eBPF programs to trace specific kernel-level events. 
 | **ptrace**  | `sys_enter_ptrace`, `sys_exit_ptrace`                 | Tracepoint         | Observes process tracing actions like `attach`, `peek`, `poke`, and `continue`; useful for detecting debuggers, tampering, or reverse engineering |
 | **mmap**    | `sys_enter_mmap`, `sys_exit_mmap`                     | Tracepoint         | Tracks memory mapping requests, including suspicious RWX regions used in shellcode or injection attacks                                           |
 | **mount**   | `sys_enter_mount`, `sys_exit_mount`                   | Tracepoint         | Monitors mount system calls useful for detecting container mount propagation, overlay mounts, or filesystem tampering |
-
+| **umount** | `sys_enter_umount`, `sys_exit_umount` | Tracepoint | Tracks unmount operations, which may indicate container teardown, cleanup, or attempts to hide malicious filesystems |
 
 
 
@@ -35,6 +35,9 @@ Each eBPF program is written in C and located under the [`bpf/`](https://github.
 * **[ptrace\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/ptrace_tracer)** – Detects process tracing and debugging behavior such as `ptrace` attach, memory read/write, and syscall control
 * **[mmap\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mmap_tracer)** – Observes memory allocation via `mmap` useful for detecting RWX mappings, shellcode injection, or memory-based exploits
 * **[mount\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mount_tracer)** – Monitors filesystem mount operations useful for observing overlay mounts or suspicious remounts
+* **[umount\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/umount_tracer)** – Monitors filesystem unmount operations, useful for detecting container shutdowns, cleanup routines, or attempts to hide activity by unmounting evidence
+
+
 
 
 
