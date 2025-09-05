@@ -15,6 +15,9 @@ InfraSight uses a suite of eBPF programs to trace specific kernel-level events. 
 | **mmap**    | `sys_enter_mmap`, `sys_exit_mmap`                     | Tracepoint         | Tracks memory mapping requests, including suspicious RWX regions used in shellcode or injection attacks                                           |
 | **mount**   | `sys_enter_mount`, `sys_exit_mount`                   | Tracepoint         | Monitors mount system calls useful for detecting container mount propagation, overlay mounts, or filesystem tampering |
 | **umount** | `sys_enter_umount`, `sys_exit_umount` | Tracepoint | Tracks unmount operations, which may indicate container teardown, cleanup, or attempts to hide malicious filesystems |
+| **Resource Tracer**   | - `kprobe/finish_task_switch`  <br> - `tracepoint/exceptions/page_fault_user`  <br> - `tracepoint/exceptions/page_fault_kernel` <br> - `tracepoint/syscall/sys_enter_mmap` <br> - `tracepoint/syscalls/sys_enter_munmap` <br> - `tracepoint/syscalls/sys_exit_munmap` <br> - `tracepoint/syscalls/sys_exit_brk` <br> - `tracepoint/syscalls/sys_exit_read` <br> - `tracepoint/syscalls/sys_exit_write` <br> - `tracepoint/sched/sched_process_exit` | Kprobe + Tracepoints | Monitors low-level resource usage and memory management (context switches, page faults, mmap/munmap, brk, read/write, and process exit). Useful for detecting anomalous resource consumption or crashes. |
+
+
 
 
 
@@ -36,6 +39,8 @@ Each eBPF program is written in C and located under the [`bpf/`](https://github.
 * **[mmap\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mmap_tracer)** – Observes memory allocation via `mmap` useful for detecting RWX mappings, shellcode injection, or memory-based exploits
 * **[mount\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/mount_tracer)** – Monitors filesystem mount operations useful for observing overlay mounts or suspicious remounts
 * **[umount\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/umount_tracer)** – Monitors filesystem unmount operations, useful for detecting container shutdowns, cleanup routines, or attempts to hide activity by unmounting evidence
+* **[resource\_tracer](https://github.com/ALEYI17/ebpf_loader/tree/main/bpf/resource_tracer)** – Provides visibility into low-level resource and memory usage. It hooks context switches, page faults, memory mappings/unmappings, `brk`, read/write syscalls, and process exits. This tracer is useful for detecting anomalous resource consumption, memory pressure, or potential exploitation attempts.
+
 
 
 
