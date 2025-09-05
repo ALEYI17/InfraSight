@@ -301,3 +301,64 @@ Includes all common fields described above, plus:
 | `dir_name` | Target directory where the filesystem is to be mounted                 |
 | `type`     | Filesystem type (e.g., `ext4`, `overlay`, `nfs`)                       |
 | `flags`    | Mount flags (e.g., `MS_RDONLY`, `MS_NOSUID`, `MS_BIND`) as raw bitmask |
+
+
+## 🗂️ `resource_events` Table
+
+<details>
+<summary>Click to show table schema</summary>
+
+```sql
+CREATE TABLE IF NOT EXISTS audit.resource_events (
+  pid UInt32,
+  comm String,
+
+  uid UInt32,
+  gid UInt32,
+  ppid UInt32,
+  user_pid UInt32,
+  user_ppid UInt32,
+  cgroup_id UInt64,
+  cgroup_name String,
+  user String,
+
+  cpu_ns UInt64,
+  user_faults UInt64,
+  kernel_faults UInt64,
+  vm_mmap_bytes UInt64,
+  vm_munmap_bytes UInt64,
+  vm_brk_grow_bytes UInt64,
+  vm_brk_shrink_bytes UInt64,
+  bytes_written UInt64,
+  bytes_read UInt64,
+  isActive UInt32,
+
+  wall_time_dt DateTime64(3),
+  wall_time_ms Int64,
+  
+  container_id String,
+  container_image String,
+  container_labels_json JSON
+  
+) ENGINE = MergeTree()
+ORDER BY wall_time_ms;
+```
+
+</details>
+
+### 🔍 Field Descriptions
+
+Includes all common fields described above, plus:
+
+| Field                 | Description                                                              |
+| --------------------- | ------------------------------------------------------------------------ |
+| `cpu_ns`              | Total CPU time consumed by the task in nanoseconds (from context switch) |
+| `user_faults`         | Number of page faults occurring in user space                            |
+| `kernel_faults`       | Number of page faults occurring in kernel space                          |
+| `vm_mmap_bytes`       | Total bytes allocated via `mmap`                                         |
+| `vm_munmap_bytes`     | Total bytes released via `munmap`                                        |
+| `vm_brk_grow_bytes`   | Bytes of heap memory grown via `brk`                                     |
+| `vm_brk_shrink_bytes` | Bytes of heap memory released via `brk`                                  |
+| `bytes_written`       | Total bytes written by the process (from syscalls like `write`)          |
+| `bytes_read`          | Total bytes read by the process (from syscalls like `read`)              |
+| `isActive`            | Indicates if the process is still active (`1`) or has exited (`0`)       |
