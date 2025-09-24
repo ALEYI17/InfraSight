@@ -20,12 +20,15 @@ InfraSight can also be deployed in a Kubernetes cluster using Helm charts and cu
 
 Each core module of InfraSight lives in its own GitHub repository and includes setup and configuration details in its respective `README.md`. Follow the links below to get started with each part:
 
-| Component                                                                   | Description                                                                              |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [`ebpf_loader`](https://github.com/ALEYI17/ebpf_loader)                     | Lightweight agent that runs eBPF programs and sends enriched telemetry via gRPC          |
-| [`ebpf_server`](https://github.com/ALEYI17/ebpf_server)                     | Central gRPC server that enriches and stores eBPF data into ClickHouse                   |
-| [`infrasight-controller`](https://github.com/ALEYI17/infrasight-controller) | Kubernetes operator that automates the lifecycle of eBPF agents                          |
-| [`ebpf_deploy`](https://github.com/ALEYI17/ebpf_deploy)                     | Helm charts to deploy the complete stack, including ClickHouse and InfraSight components |
+
+| Component                                                                   | Description                                                                                    |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`ebpf_loader`](https://github.com/ALEYI17/ebpf_loader)                     | Lightweight agent that runs eBPF programs and sends enriched telemetry via gRPC                |
+| [`ebpf_server`](https://github.com/ALEYI17/ebpf_server)                     | Central gRPC server that enriches and stores eBPF data into ClickHouse                         |
+| [`infrasight-controller`](https://github.com/ALEYI17/infrasight-controller) | Kubernetes operator that automates the lifecycle of eBPF agents                                |
+| [`ebpf_deploy`](https://github.com/ALEYI17/ebpf_deploy)                     | Helm charts to deploy the complete stack, including ClickHouse and InfraSight components       |
+| [`InfraSight_ml`](https://github.com/ALEYI17/InfraSight_ml)                 | Machine learning models for anomaly detection, consuming telemetry from Kafka                  |
+| [`InfraSight_sentinel`](https://github.com/ALEYI17/InfraSight_sentinel)     | Rules engine that applies predefined detection logic to events from Kafka and generates alerts |
 
 
 Each repository provides:

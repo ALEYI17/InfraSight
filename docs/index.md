@@ -14,6 +14,9 @@ It helps platform engineers, SREs, and security teams gain deep visibility into 
 - Kubernetes-native agent deployment
 - CRD-based configuration (via `EbpfDaemonSet`)
 - Extensible probe system
+- Machine learning–based anomaly detection for syscall frequency and resource usage
+- Rules engine (InfraSight Sentinel) for real-time threat detection and alerting
+
 
 👉 **Get started [here](getting-started.md)** or jump to:
 
