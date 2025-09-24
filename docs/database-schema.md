@@ -362,3 +362,41 @@ Includes all common fields described above, plus:
 | `bytes_written`       | Total bytes written by the process (from syscalls like `write`)          |
 | `bytes_read`          | Total bytes read by the process (from syscalls like `read`)              |
 | `isActive`            | Indicates if the process is still active (`1`) or has exited (`0`)       |
+
+## 🗂️ `syscall_freq_events` Table
+
+<details>
+<summary>Click to show table schema</summary>
+
+```sql
+CREATE TABLE IF NOT EXISTS audit.syscall_freq_events (
+  pid UInt32,
+  comm String,
+  uid UInt32,
+  gid UInt32,
+  ppid UInt32,
+  user_pid UInt32,
+  user_ppid UInt32,
+  cgroup_id UInt64,
+  cgroup_name String,
+  user String,
+  syscall_vector_json JSON, 
+  wall_time_dt DateTime64(3),
+  wall_time_ms Int64,
+  container_id String,
+  container_image String,
+  container_labels_json JSON
+)
+ENGINE = MergeTree()
+ORDER BY wall_time_ms;
+```
+
+</details>
+
+### 🔍 Field Descriptions
+
+Includes all common fields described above, plus:
+
+| Field                 | Description                                                                                                                                                                                                                                    |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `syscall_vector_json` | JSON object mapping syscall numbers to their invocation counts. <br> Example: `{"0":12,"1":4,"60":9}` meaning `read` was called 12 times, `write` 4 times, `exit` 9 times.  |
