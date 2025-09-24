@@ -10,3 +10,9 @@
 [submodule "infrasight-controller"]
 	path = infrasight-controller
 	url = https://github.com/ALEYI17/infrasight-controller.git
+[submodule "InfraSight_ml"]
+	path = InfraSight_ml
+	url = https://github.com/ALEYI17/InfraSight_ml
+[submodule "InfraSight_sentinel"]
+	path = InfraSight_sentinel
+	url = https://github.com/ALEYI17/InfraSight_sentinel
