@@ -14,20 +14,16 @@ At the core of InfraSight are **eBPF Agents**, which are lightweight, kernel-lev
 * **`open`**: Tracking file access and modification.
 * **`chmod`**: Observing file permission changes.
 * **`connect`** and **`accept`**: Monitoring network connection and acceptance events.
+* **`ptrace`** → Detecting process tracing operations (debuggers, tampering, reverse engineering).
+* **`mmap`** → Tracking memory mapping activity, including suspicious RWX mappings.
+* **`mount`** and **`umount`** → Monitoring filesystem mount/unmount activity, often linked to container isolation or tampering.
+* **`Resource`** → Measuring process resource usage (CPU time, memory allocations, I/O, page faults, and process lifecycle events).
+* **`SyscallFreq`** → Aggregating syscall invocation counts per process, useful for anomaly detection based on unusual syscall usage patterns.
 
 These eBPF programs operate directly within the Linux kernel, providing efficient and real-time event tracing with minimal overhead. The **eBPF Agents** collect raw data, including process information, network events, and file system interactions.
 
-### **2. Data Enrichment at the Source**
 
-Once raw data is collected by the eBPF agents, it is enriched on the source node. This initial enrichment may involve:
-
-* Resolving **user IDs (UID)** to human-readable **usernames**.
-* Extracting container metadata using cgroup information to understand which container the process belongs to (when applicable).
-* Converting **latency** from nanoseconds to more understandable units such as milliseconds or seconds.
-
-This pre-enriched data is then streamed to the central **InfraSight Server** via a **gRPC pipeline**.
-
-### **3. InfraSight Server**
+### **2. InfraSight Server**
 
 The **InfraSight Server** serves as the central processing unit, receiving the raw events from the eBPF Agents. Upon receiving the data, the server performs additional enrichment, such as:
 
@@ -37,7 +33,32 @@ The **InfraSight Server** serves as the central processing unit, receiving the r
 
 Once enriched, the data is stored in a high-performance, scalable database.
 
-### **4. ClickHouse Database**
+### **3. Kafka Message Bus**
+
+**Apache Kafka** acts as the event distribution backbone of InfraSight. By publishing enriched eBPF events into Kafka, the platform allows multiple consumers to subscribe and process the data independently. This decouples data collection from detection and analysis, enabling scalability and modularity.
+
+### **4. Detection & Analytics Components**
+
+InfraSight provides multiple detection layers consuming data from Kafka:
+
+#### 🔹 InfraSight Sentinel (Rules Engine)
+The **InfraSight Sentinel** is the rules engine that evaluates eBPF events in real time. Its goal is to detect suspicious behaviors such as fileless execution, privilege escalation, or unusual system activity.  
+
+It is responsible for:
+- Consuming events from Kafka produced by the InfraSight server.  
+- Applying security rules (based on syscalls and enriched process/container context).  
+- Generating structured alerts with detailed process, container, and user information.  
+- Integrating seamlessly with the rest of the InfraSight ecosystem.  
+
+#### 🔹 Anomaly Detection (ML Models)
+InfraSight also includes **machine learning–based anomaly detection** modules:
+
+- **`infrasight-resource`** → Focuses on detecting anomalies in **resource usage patterns** (CPU, memory, faults, etc).  
+- **`infrasight-syscall`** → Detects anomalies in **syscall frequency and behavior**, identifying deviations from learned baselines.  
+
+These models consume Kafka events, apply per-container and global anomaly detection, and produce alerts or insights. They complement Sentinel by identifying subtle or previously unknown threats.
+
+### **5. ClickHouse Database**
 
 InfraSight uses **ClickHouse**, a columnar database optimized for fast analytical queries, as the backend to store and manage the collected events. ClickHouse allows efficient querying even with large volumes of data, which is essential for event-driven telemetry systems.
 
